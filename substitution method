@@ -1,0 +1,5 @@
+def substitution_method(n):
+    if n == 1:
+        return 1
+    return substitution_method(n - 1) + 1  
+print(substitution_method(5))

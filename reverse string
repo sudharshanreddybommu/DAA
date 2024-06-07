@@ -1,0 +1,2 @@
+s="sudharshan,reddy"
+print(s[::-1])

@@ -1,0 +1,5 @@
+a=(12,45,36,89,77)
+x=max(a)
+y=min(a)
+print(x)
+print(y)

@@ -1,0 +1,5 @@
+def iteration_method(n):
+    if n == 1:
+        return 1
+    return 2 * iteration_method(n // 2) + n 
+print(iteration_method(8))

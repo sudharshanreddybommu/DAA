@@ -1,0 +1,195 @@
+1. REMOVE ELEMENT:
+          def removeElement(nums, val):
+              k = 0
+            for i in range(len(nums)):
+              if nums[i] != val:
+                nums[k] = nums[i]
+                  k += 1
+
+                return k
+          nums = [3, 2, 2, 3]
+          val = 3
+          print(removeElement(nums, val))  # Output: 2, nums is now [2, 2, 2, 3]
+________________________________________________________________________________________________________________________________________________________________________________
+2. SUDOKU SOLVER:
+      def is_valid(board, row, col, num):
+    # Check if the number is already in the row
+    if num in board[row]:
+        return False
+    
+    # Check if the number is already in the column
+    for i in range(9):
+        if board[i][col] == num:
+            return False
+    
+    # Check if the number is already in the 3x3 sub-box
+    start_row, start_col = 3 * (row // 3), 3 * (col // 3)
+    for i in range(start_row, start_row + 3):
+        for j in range(start_col, start_col + 3):
+            if board[i][j] == num:
+                return False
+    
+    return True
+
+def solve_sudoku(board):
+    for row in range(9):
+        for col in range(9):
+            if board[row][col] == '.':
+                for num in map(str, range(1, 10)):
+                    if is_valid(board, row, col, num):
+                        board[row][col] = num
+                        if solve_sudoku(board):
+                            return True
+
+board[row][col] = '.'  # Backtrack
+                return False
+    return True
+
+def print_board(board):
+    for row in board:
+        print(' '.join(row))
+board = [
+    ["5","3",".",".","7",".",".",".","."],
+    ["6",".",".","1","9","5",".",".","."],
+    [".","9","8",".",".",".",".","6","."],
+    ["8",".",".",".","6",".",".",".","3"],
+    ["4",".",".","8",".","3",".",".","1"],
+    ["7",".",".",".","2",".",".",".","6"],
+    [".","6",".",".",".",".","2","8","."],
+    [".",".",".","4","1","9",".",".","5"],
+    [".",".",".",".","8",".",".","7","9"]
+]
+
+if solve_sudoku(board):
+    print_board(board)
+else:
+    print("No solution exists.")
+_______________________________________________________________________________________________________________________________________________________________________________
+3. COUNT AND SAY:
+    def countAndSay(n):
+    if n == 1:
+        return "1"
+    
+    prev = countAndSay(n - 1)
+    result = ""
+    count = 1
+    
+    for i in range(1, len(prev)):
+        if prev[i] == prev[i - 1]:
+            count += 1
+        else:
+            result += str(count) + prev[i - 1]
+            count = 1
+    
+    result += str(count) + prev[-1]
+    return result
+n = 5
+print(countAndSay(n))  # Output: "111221"
+_____________________________________________________________________________________________________________________________________________________________________________________
+
+4. COMBINATION SUM :
+def combinationSum(candidates, target):
+    def backtrack(start, path, target):
+        if target == 0:
+            result.append(path)
+            return
+        if target < 0:
+            return
+        for i in range(start, len(candidates)):
+            backtrack(i, path + [candidates[i]], target - candidates[i])
+
+    result = []
+    candidates.sort()
+    backtrack(0, [], target)
+    return result
+candidates = [2, 3, 6, 7]
+target = 7
+print(combinationSum(candidates, target))  # Output: [[2, 2, 3], [7]]
+___________________________________________________________________________________________________________________________________________________________________________
+
+5. COMBINATION SUM II :
+def combinationSum2(candidates, target):
+    def backtrack(start, path, target):
+        if target == 0:
+            result.append(path)
+            return
+        if target < 0:
+            return
+        for i in range(start, len(candidates)):
+            if i > start and candidates[i] == candidates[i - 1]:
+                continue  # Skip duplicates
+            backtrack(i + 1, path + [candidates[i]], target - candidates[i])
+
+    result = []
+    candidates.sort()
+    backtrack(0, [], target)
+    return result
+candidates = [10, 1, 2, 7, 6, 1, 5]
+target = 8
+print(combinationSum2(candidates, target))  
+# Output: [[1, 1, 6], [1, 2, 5], [1, 7], [2, 6]]
+____________________________________________________________________________________________________________________________________________________________________________
+
+6. PERMUTATIONS II :
+  def permuteUnique(nums):
+    def backtrack(path, counter):
+        if len(path) == len(nums):
+            result.append(path[:])
+            return
+        for num in counter:
+            if counter[num] > 0:
+                path.append(num)
+                counter[num] -= 1
+                backtrack(path, counter)
+                path.pop()
+                counter[num] += 1
+
+    result = []
+    counter = {}
+    for num in nums:
+        counter[num] = counter.get(num, 0) + 1
+    backtrack([], counter)
+    return result
+nums = [1, 1, 2]
+print(permuteUnique(nums))  
+# Output: [[1, 1, 2], [1, 2, 1], [2, 1, 1]]
+___________________________________________________________________________________________________________________________________________________________________________
+
+7. MAXIMUM SUBARRAY :
+def maxSubArray(nums):
+    max_sum = nums[0]
+    current_sum = nums[0]
+    
+    for num in nums[1:]:
+        current_sum = max(num, current_sum + num)
+        max_sum = max(max_sum, current_sum)
+    
+    return max_sum
+
+# Example usage:
+nums1 = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
+nums2 = [1]
+nums3 = [5, 4, -1, 7, 8]
+
+print(maxSubArray(nums1))  # Output: 6
+print(maxSubArray(nums2))  # Output: 1
+print(maxSubArray(nums3))  # Output: 23
+_____________________________________________________________________________________________________________________________________________________________________________
+8. PERMUTATION SEQUENCE :
+    import math
+
+def getPermutation(n, k):
+    nums = [str(i) for i in range(1, n + 1)]
+    result = ''
+    k -= 1  # Adjust k to 0-based index
+    while n > 0:
+        n -= 1
+        index = k // math.factorial(n)
+        result += nums.pop(index)
+        k %= math.factorial(n)
+    return result
+
+# Example usage:
+n = 3
+k = 3
+print(getPermutation(n, k))  # Output: "213"

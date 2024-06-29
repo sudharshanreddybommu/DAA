@@ -1,0 +1,485 @@
+TOPIC 1 : INTRODUCTION
+1.Given an array of strings words, return the first palindromic string in the array. If there is no such string, return an empty string "". A string is palindromic if it reads the same forward and backward.
+Example 1:
+Input: words = ["abc","car","ada","racecar","cool"]
+Output: "ada"
+Explanation: The first string that is palindromic is "ada".
+Note that "racecar" is also palindromic, but it is not the first.
+
+Example 2:
+Input: words = ["notapalindrome","racecar"]
+Output: "racecar"
+Explanation: The first and only string that is palindromic is "racecar".
+Program:
+               def first_palindromic_string(words):
+    for word in words:
+        if word == word[::-1]:  
+            return word
+    return ""  
+words = ["abc", "car", "racecar", "level", "rotor"]
+print(first_palindromic_string(words))  # Output: racecar
+
+2.You are given two integer arrays nums1 and nums2 of sizes n and m, respectively. Calculate the following values: answer1 : the number of indices i such that nums1[i] exists in nums2.  answer2 : the number of indices i such that nums2[i] exists in nums1 Return [answer1,answer2].
+
+Example 1:
+Input: nums1 = [2,3,2], nums2 = [1,2]
+Output: [2,1]
+Explanation:
+
+Example 2:
+Input: nums1 = [4,3,2,3,1], nums2 = [2,2,5,2,3,6]
+Output: [3,4]
+Explanation:
+The elements at indices 1, 2, and 3 in nums1 exist in nums2 as well. So answer1 is 3.
+The elements at indices 0, 1, 3, and 4 in nums2 exist in nums1. So answer2 is 4.
+Program:
+               def count_indices(nums1, nums2):
+    set_nums1 = set(nums1)
+    set_nums2 = set(nums2)
+    answer1 = sum(1 for num in nums1 if num in set_nums2)
+    answer2 = sum(1 for num in nums2 if num in set_nums1)
+    return [answer1, answer2]
+nums1 = [2,3,2]
+nums2 = [1,2]
+print(count_indices(nums1, nums2))  # Output: [2, 1]
+
+3.You are given a 0-indexed integer array nums. The distinct count of a subarray of nums is defined as: Let nums[i..j] be a subarray of nums consisting of all the indices from i to j such that 0 <= i <= j < nums.length. Then the number of distinct values in nums[i..j] is called the distinct count of nums[i..j]. Return the sum of the squares of distinct counts of all subarrays of nums. A subarray is a contiguous non-empty sequence of elements within an array.
+Example 1:
+Input: nums = [1,2,1]
+Output: 15
+Explanation: Six possible subarrays are:
+[1]: 1 distinct value
+[2]: 1 distinct value
+[1]: 1 distinct value
+[1,2]: 2 distinct values
+[2,1]: 2 distinct values
+[1,2,1]: 2 distinct values
+The sum of the squares of the distinct counts in all subarrays is equal to 12 + 12 + 12 + 22 + 22 + 22 = 15.
+
+Example 2:
+Input: nums = [1,1]
+Output: 3
+Explanation: Three possible subarrays are:
+[1]: 1 distinct value
+[1]: 1 distinct value
+[1,1]: 1 distinct value
+The sum of the squares of the distinct counts in all subarrays is equal to 12 + 12 + 12 = 3.
+Program:
+              def sum_of_squares_of_distinct_counts(nums):
+    n = len(nums)
+    total_sum = 0
+    for i in range(n):
+        distinct_elements = set()
+        for j in range(i, n):
+            distinct_elements.add(nums[j])
+            distinct_count = len(distinct_elements)
+            total_sum += distinct_count**2 
+    return total_sum
+nums = [1, 2, 1]
+print(sum_of_squares_of_distinct_counts(nums))  # Output: 14
+
+4.Given a 0-indexed integer array nums of length n and an integer k, return the number of pairs (i, j) where 0 <= i < j < n, such that nums[i] == nums[j] and (i * j) is divisible by k. 
+Example 1:
+Input: nums = [3,1,2,2,2,1,3], k = 2
+Output: 4
+Explanation:
+There are 4 pairs that meet all the requirements:
+- nums[0] == nums[6], and 0 * 6 == 0, which is divisible by 2.
+- nums[2] == nums[3], and 2 * 3 == 6, which is divisible by 2.
+- nums[2] == nums[4], and 2 * 4 == 8, which is divisible by 2.
+- nums[3] == nums[4], and 3 * 4 == 12, which is divisible by 2.
+Example 2:
+Input: nums = [1,2,3,4], k = 1
+Output: 0
+Explanation: Since no value in nums is repeated, there are no pairs (i,j) that meet all the requirements.
+Program:
+               def count_pairs(nums, k):
+    from collections import defaultdict
+    indices = defaultdict(list)
+    for i, num in enumerate(nums):
+        indices[num].append(i)
+    count = 0
+    for idx_list in indices.values():
+        n = len(idx_list)
+        for i in range(n):
+            for j in range(i + 1, n):
+                if (idx_list[i] * idx_list[j]) % k == 0:
+                    count += 1
+    return count
+nums = [1, 2, 3, 1, 1, 3]
+k = 2
+print(count_pairs(nums, k))  # Output: 4
+5.Write a  program FOR THE BELOW TEST CASES with least time complexity     	 Test Cases: -
+1)Input: {1, 2, 3, 4, 5} Expected Output: 5
+2)Input: {7, 7, 7, 7, 7} Expected Output: 7
+3)Input: {-10, 2, 3, -4, 5} Expected Output: 5
+Program:
+                   def count_pairs(nums, k):
+    from collections import defaultdict
+    indices = defaultdict(list)
+    for i, num in enumerate(nums):
+        indices[num].append(i)
+    count = 0
+    for idx_list in indices.values():
+        n = len(idx_list)
+        for i in range(n):
+            for j in range(i + 1, n):
+                if (idx_list[i] * idx_list[j]) % k == 0:
+                    count += 1
+    return count
+nums = [1, 2, 3, 1, 1, 3]
+k = 3
+print(count_pairs(nums, k))  # Output: 4
+
+6.You have an algorithm that process a list of numbers. It firsts sorts the list using an efficient sorting algorithm and then finds the maximum element in sorted list. Write the code for the same.
+Test Cases
+1.Empty List
+1.Input: []
+2.Expected Output: None or an appropriate message indicating that the list is empty.
+2.Single Element List
+1.Input: [5]
+2.Expected Output: 5
+3.All Elements are the Same
+1.Input: [3, 3, 3, 3, 3]
+2.Expected Output: 3
+Program:
+                      def process_list(nums):
+    nums.sort()  
+    max_element = nums[-1] 
+    return max_element
+nums = [3,3,3,3,3]
+max_element = process_list(nums)
+print(max_element)  # Output: 9
+
+7.Write a program that takes an input list of n numbers and  creates a new list containing only the unique elements from the original list. What is the space complexity of the algorithm? 
+Test Cases
+Some Duplicate Elements
+Input: [3, 7, 3, 5, 2, 5, 9, 2]
+Expected Output: [3, 7, 5, 2, 9] (Order may vary based on the algorithm used)
+Negative and Positive Numbers
+Input: [-1, 2, -1, 3, 2, -2]
+Expected Output: [-1, 2, 3, -2] (Order may vary)
+List with Large Numbers
+Input: [1000000, 999999, 1000000]
+Expected Output: [1000000, 999999]
+Program:
+                def unique_elements(nums):
+    unique_set = set(nums)
+    unique_list = list(unique_set)
+    return unique_list
+nums = [1, 2, 2, 3, 4, 4, 5]
+unique_list = unique_elements(nums)
+print(unique_list)  # Output: [1, 2, 3, 4, 5]
+
+8. Sort an array of integers using the bubble sort technique. Analyze its time complexity using Big-O notation. Write the code
+Program:
+                def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+                swapped = True
+        if not swapped:
+            break
+arr = [64, 34, 25, 12, 22, 11, 90]
+bubble_sort(arr)
+print("Sorted array:", arr)  # Output: Sorted array: [11, 12, 22, 25, 34, 64, 90]
+
+9. Checks if a given number x exists in a sorted array arr using binary search. Analyze its time complexity using Big-O notation.
+Test Case:
+Example X={ 3,4,6,-9,10,8,9,30} KEY=10
+Output: Element 10 is found at position 5
+
+Example X={ 3,4,6,-9,10,8,9,30} KEY=100
+Output : Element 100 is not found
+Program:
+          def binary_search(arr, x):
+    low = 0
+    high = len(arr) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == x:
+            return True 
+        elif arr[mid] < x:
+            low = mid + 1  
+        else:
+            high = mid - 1
+    return False 
+arr = [2, 3, 4, 10, 40]
+x = 10
+print(binary_search(arr, x))  # Output: True
+
+10. Given an array of integers nums, sort the array in ascending order and return it. You must solve the problem without using any built-in functions in O(nlog(n)) time complexity and with the smallest space complexity possible.
+Program:
+           def merge_sort(nums):
+    if len(nums) <= 1:
+        return nums
+    
+    # Divide the array into two halves
+    mid = len(nums) // 2
+    left_half = nums[:mid]
+    right_half = nums[mid:]
+    
+    # Recursively sort each half
+    left_sorted = merge_sort(left_half)
+    right_sorted = merge_sort(right_half)
+    
+    # Merge the sorted halves
+    return merge(left_sorted, right_sorted)
+
+def merge(left, right):
+    sorted_list = []
+    left_index = right_index = 0
+    
+    while left_index < len(left) and right_index < len(right):
+        if left[left_index] <= right[right_index]:
+            sorted_list.append(left[left_index])
+            left_index += 1
+        else:
+            sorted_list.append(right[right_index])
+            right_index += 1
+    
+    # Append remaining elements
+    sorted_list.extend(left[left_index:])
+    sorted_list.extend(right[right_index:])
+    
+    return sorted_list
+
+# Example usage:
+nums = [64, 34, 25, 12, 22, 11, 90]
+sorted_nums = merge_sort(nums)
+print("Sorted array:", sorted_nums)  # Output: Sorted array: [11, 12, 22, 25, 34, 64, 90]
+
+11.Given an m x n grid and a ball at a starting cell, find the number of ways to move the ball out of the grid boundary in exactly N steps.
+Example:
+· 		 Input: m=2,n=2,N=2,i=0,j=0        ·  Output: 6
+· 	Input: m=1,n=3,N=3,i=0,j=1         ·  Output: 12
+Program:
+             def findPaths(m, n, N, startRow, startColumn):
+    # Initialize dp array
+    dp = [[[0] * n for _ in range(m)] for _ in range(N + 1)]
+    dp[0][startRow][startColumn] = 1
+    
+    # Define directions for movement: up, down, left, right
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    
+    # Fill dp table
+    for k in range(1, N + 1):
+        for i in range(m):
+            for j in range(n):
+                for d in directions:
+                    ni, nj = i + d[0], j + d[1]
+                    if 0 <= ni < m and 0 <= nj < n:
+                        dp[k][i][j] += dp[k - 1][ni][nj]
+                        dp[k][i][j] %= 1000000007
+    
+    # Sum paths on boundaries
+    paths = 0
+    for k in range(1, N + 1):
+        paths += dp[k][0][startColumn]  # Top row
+        paths += dp[k][m - 1][startColumn]  # Bottom row
+        paths += dp[k][startRow][0]  # Left column
+        paths += dp[k][startRow][n - 1]  # Right column
+        paths %= 1000000007
+    
+    return paths
+
+# Example usage:
+m = 2
+n = 2
+N = 2
+startRow = 0
+startColumn = 0
+print(findPaths(m, n, N, startRow, startColumn))  # Output: 6
+12.You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have security systems connected, and it will automatically contact the police if two adjacent houses were broken into on the same night.
+Examples:
+(i)Input : nums = [2, 3, 2]
+Output : The maximum money you can rob without alerting the 
+police is 3(robbing house 1).
+(ii)Input : nums = [1, 2, 3, 1]
+Output : The maximum money you can rob without alerting the 
+police is 4 (robbing house 1 and house 3).
+Program:
+          def rob(nums):
+    if not nums:
+        return 0
+    if len(nums) == 1:
+        return nums[0]
+    
+    # Function to rob from start to end-1
+    def rob_linear(nums):
+        if not nums:
+            return 0
+        if len(nums) == 1:
+            return nums[0]
+        
+        prev1 = 0  # Represents dp[i-1]
+        prev2 = 0  # Represents dp[i-2]
+        
+        for num in nums:
+            current = max(prev1, prev2 + num)
+            prev2 = prev1
+            prev1 = current
+        
+        return prev1
+    
+    # Rob from first house to second-to-last house
+    rob_first_to_second_last = rob_linear(nums[:-1])
+    
+    # Rob from second house to last house
+    rob_second_to_last = rob_linear(nums[1:])
+    
+    # Return the maximum of the two scenarios
+    return max(rob_first_to_second_last, rob_second_to_last)
+
+# Example usage:
+nums = [2, 3, 2]
+print(rob(nums))  # Output: 3
+
+nums = [1, 2, 3, 1]
+print(rob(nums))  # Output: 4
+13.You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+Examples:
+(i)Input: n=4     Output: 5
+(ii)Input: n=3  Output: 3
+Program:
+         def climbStairs(n):
+    if n == 0:
+        return 1
+    if n == 1:
+        return 1
+    dp = [0] * (n + 1)
+    dp[0] = 1
+    dp[1] = 1
+    for i in range(2, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+    return dp[n]
+n = 3
+print(climbStairs(n))  # Output: 3 (ways: 1+1+1, 1+2, 2+1)
+14.A robot is located at the top-left corner of a m×n grid .The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid. How many possible unique paths are there?
+Examples: 
+(i)Input: m=7,n=3      Output: 28
+(ii)Input: m=3,n=2    Output: 3
+Program:
+          def uniquePaths(m, n):
+    dp = [[0] * n for _ in range(m)]
+    dp[0][0] = 1
+    for i in range(m):
+        for j in range(n):
+            if i > 0:
+                dp[i][j] += dp[i-1][j]  
+            if j > 0:
+                dp[i][j] += dp[i][j-1]
+    return dp[m-1][n-1]
+m = 3
+n = 7
+print(uniquePaths(m, n))  # Output: 28
+15.In a string S of lowercase letters, these letters form consecutive groups of the same character. For example, a string like s = "abbxxxxzyy" has the groups "a", "bb", "xxxx", "z", and "yy". A group is identified by an interval [start, end], where start and end denote the start and end indices (inclusive) of the group. In the above example, "xxxx" has the interval [3,6]. A group is considered large if it has 3 or more characters. Return the intervals of every large group sorted in increasing order by start index.
+
+Example 1:
+Input: s = "abbxxxxzzy"
+Output: [[3,6]]
+Explanation: "xxxx" is the only large group with start index 3 and end index 6.
+
+Example 2:
+Input: s = "abc"
+Output: []
+Explanation: We have groups "a", "b", and "c", none of which are large groups.
+Program:
+         def largeGroupPositions(S):
+    if not S:
+        return []
+    result = []
+    n = len(S)
+    start = 0
+    for end in range(1, n):
+        if S[end] != S[end - 1]:
+            if end - start >= 3:
+                result.append([start, end - 1])
+            start = end
+    if n - start >= 3:
+        result.append([start, n - 1])
+    return result
+S = "abbxxxxzyy"
+print(largeGroupPositions(S))  # Output: [[3, 6], [8, 9]]
+16."The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970." The board is made up of an m x n grid of cells, where each cell has an initial state: live (represented by a 1) or dead (represented by a 0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules 
+Any live cell with fewer than two live neighbors dies as if caused by under-population.
+1.Any live cell with two or three live neighbors lives on to the next generation.
+2.Any live cell with more than three live neighbors dies, as if by over-population.
+3.Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+The next state is created by applying the above rules simultaneously to every cell in the current state, where births and deaths occur simultaneously. Given the current state of the m x n grid board, return the next state.
+ Example 1:
+
+
+Input: board = [[0,1,0],[0,0,1],[1,1,1],[0,0,0]]
+Output: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]
+    Example 2:
+
+Input: board = [[1,1],[1,0]]
+Output: [[1,1],[1,1]]
+Program;
+           def gameOfLife(board):
+    if not board:
+        return
+    m, n = len(board), len(board[0])
+    next_board = [[board[i][j] for j in range(n)] for i in range(m)]
+    directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    for i in range(m):
+        for j in range(n):
+            live_neighbors = 0
+            for d in directions:
+                ni, nj = i + d[0], j + d[1]
+                if 0 <= ni < m and 0 <= nj < n and board[ni][nj] == 1:
+                    live_neighbors += 1
+            if board[i][j] == 1:
+                if live_neighbors < 2 or live_neighbors > 3:
+                    next_board[i][j] = 0
+            else:
+                if live_neighbors == 3:
+                    next_board[i][j] = 1
+    for i in range(m):
+        for j in range(n):
+            board[i][j] = next_board[i][j]
+board = [
+  [0, 1, 0],
+  [0, 0, 1],
+  [1, 1, 1],
+  [0, 0, 0]
+]
+print("Original Board:")
+for row in board:
+    print(row)
+
+gameOfLife(board)
+
+print("\nNext Generation Board:")
+for row in board:
+    print(row)
+17.We stack glasses in a pyramid, where the first row has 1 glass, the second row has 2 glasses, and so on until the 100th row.  Each glass holds one cup of champagne.  Then, some champagne is poured into the first glass at the top.  When the topmost glass is full, any excess liquid poured will fall equally to the glass immediately to the left and right of it.  When those glasses become full, any excess champagne will fall equally to the left and right of those glasses, and so on.  (A glass at the bottom row has its excess champagne fall on the floor.) For example, after one cup of champagne is poured, the top most glass is full.  After two cups of champagne are poured, the two glasses on the second row are half full.  After three cups of champagne are poured, those two cups become full - there are 3 full glasses total now.  After four cups of champagne are poured, the third row has the middle glass half full, and the two outside glasses are a quarter full, as pictured below.
+
+Now after pouring some non-negative integer cups of champagne, return how full the jth glass in the ith row is (both i and j are 0-indexed.)
+Example 1:
+Input: poured = 1, query_row = 1, query_glass = 1
+Output: 0.00000
+Explanation: We poured 1 cup of champange to the top glass of the tower (which is indexed as (0, 0)). There will be no excess liquid so all the glasses under the top glass will remain empty.
+Example 2:
+Input: poured = 2, query_row = 1, query_glass = 1
+Output: 0.50000
+Explanation: We poured 2 cups of champange to the top glass of the tower (which is indexed as (0, 0)). There is one cup of excess liquid. The glass indexed as (1, 0) and the glass indexed as (1, 1) will share the excess liquid equally, and each will get half cup of champange.
+Program:
+            def champagneTower(poured, query_row, query_glass):
+    dp = [[0.0] * (r + 1) for r in range(101)]
+    dp[0][0] = poured
+    for i in range(query_row + 1):
+        for j in range(i + 1):
+            overflow = (dp[i][j] - 1.0) / 2.0
+            if overflow > 0:
+                dp[i + 1][j] += overflow
+                dp[i + 1][j + 1] += overflow
+    return min(1.0, dp[query_row][query_glass])
+poured = 4
+query_row = 2
+query_glass = 1
+print(champagneTower(poured, query_row, query_glass))  # Output: 0.5
